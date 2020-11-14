@@ -5,13 +5,31 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @package App\Controller\Admin
+ *
+ * @Route("/admin")
+ */
 class DashboardController extends AbstractDashboardController
 {
     /**
-     * @Route("/admin", name="admin", methods={"GET"})
+     * Avoids 404 error on GET /admin
+     *
+     * @Route("", name="admin_root", methods={"GET"})
+     *
+     * @return RedirectResponse
+     */
+    public function root(): RedirectResponse
+    {
+        return $this->redirectToRoute($this->getUser() ? 'admin_dashboard' : 'admin_login');
+    }
+
+    /**
+     * @Route("/dashboard", name="admin_dashboard", methods={"GET"})
      */
     public function index(): Response
     {
