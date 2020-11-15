@@ -27,9 +27,20 @@ class AdminController extends AbstractController
              return $this->redirectToRoute('admin_dashboard');
          }
 
-        return $this->render('Admin/Security/login.twig', [
+        return $this->render('@EasyAdmin/page/login.html.twig', [
             'last_username' => $utils->getLastUsername(),
-            'error' => $utils->getLastAuthenticationError()
+            'error' => $utils->getLastAuthenticationError(),
+
+            // OPTIONAL parameters to customize the login form
+            'translation_domain' => 'admin',
+            'page_title' => 'Integration Administration',
+            'csrf_token_intention' => 'authenticate',
+            'target_path' => $this->generateUrl('admin_dashboard'),
+            'username_label' => 'Username',
+            'password_label' => 'Password',
+            'sign_in_label' => 'Validate',
+            'username_parameter' => 'username',
+            'password_parameter' => 'password',
         ]);
     }
 
