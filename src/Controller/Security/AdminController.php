@@ -16,19 +16,21 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/login", name="admin_login")
+     *
+     * @param AuthenticationUtils $utils
+     *
+     * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $utils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+         if ($this->getUser()) {
+             return $this->redirectToRoute('admin_dashboard');
+         }
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('Admin/Security/login.twig', [
+            'last_username' => $utils->getLastUsername(),
+            'error' => $utils->getLastAuthenticationError()
+        ]);
     }
 
     /**
